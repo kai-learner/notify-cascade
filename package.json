@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "ncc build index.js -o dist --license licenses.txt",
+    "test": "node test/index.test.js",
     "prepare": "npm run build"
   },
   "keywords": [

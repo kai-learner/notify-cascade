@@ -1,4 +1,5 @@
 const https = require('https');
+const http = require('http');
 const { URL } = require('url');
 
 async function sendSlack({ webhookUrl, message, title, channel, username, iconEmoji }) {
@@ -44,9 +45,11 @@ async function sendSlack({ webhookUrl, message, title, channel, username, iconEm
 function post(url, body) {
   return new Promise((resolve, reject) => {
     const parsed = new URL(url);
+    const lib = parsed.protocol === 'https:' ? https : http;
     const data = JSON.stringify(body);
-    const req = https.request({
+    const req = lib.request({
       hostname: parsed.hostname,
+      port: parsed.port,
       path: parsed.pathname + parsed.search,
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(data) }
